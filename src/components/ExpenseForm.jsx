@@ -1,21 +1,22 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-function ExpenseForm() {
+function ExpenseForm({ onAdd }) {
 	const {
 		register,
 		handleSubmit,
+		reset,
 		formState: { errors, isValid },
 	} = useForm();
 
-	const onAdd = (data) => {
-		console.log(errors);
-		console.log(data);
+	const onSubmit = (data) => {
+		onAdd(data);
+		reset();
 	};
 
 	return (
 		<>
-			<form onSubmit={handleSubmit(onAdd)}>
+			<form onSubmit={handleSubmit(onSubmit)}>
 				<div>
 					<label htmlFor="description">Description</label>
 					<br />
@@ -56,6 +57,7 @@ function ExpenseForm() {
 						className="rounded border-2 border-red-200 w-64"
 						{...register("category", { required: true })}
 					>
+						<option value=""></option>
 						<option value="grocery">Grocery</option>
 						<option value="utility">Utility</option>
 						<option value="transport">Transport</option>
